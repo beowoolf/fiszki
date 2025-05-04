@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="title">
+    <title th:text="${flashcard.id == null ? 'Nowa fiszka' : 'Edytuj fiszkę'}">Formularz fiszki</title>
+</head>
+<body>
+    <div th:fragment="content">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="text-center" th:text="${flashcard.id == null ? 'Nowa fiszka' : 'Edytuj fiszkę'}">Formularz fiszki</h3>
+                    </div>
+                    <div class="card-body">
+                        <form th:action="${flashcard.id == null ? '/flashcards' : '/flashcards/' + flashcard.id}" 
+                              method="post" th:object="${flashcard}">
+                            <div class="mb-3">
+                                <label for="front" class="form-label">Przód fiszki</label>
+                                <input type="text" class="form-control" id="front" th:field="*{front}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="back" class="form-label">Tył fiszki</label>
+                                <input type="text" class="form-control" id="back" th:field="*{back}" required>
+                            </div>
+                            <div class="mb-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="learned" th:field="*{learned}">
+                                    <label class="form-check-label" for="learned">
+                                        Oznacz jako nauczone
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary" th:text="${flashcard.id == null ? 'Dodaj' : 'Zapisz'}">Zapisz</button>
+                                <a th:href="@{/flashcards}" class="btn btn-secondary">Anuluj</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

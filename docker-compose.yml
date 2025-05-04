@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mariadb://mariadb:3306/fiszki
+      - SPRING_DATASOURCE_USERNAME=fiszki
+      - SPRING_DATASOURCE_PASSWORD=fiszki
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - SPRING_JPA_DATABASE_PLATFORM=org.hibernate.dialect.MariaDBDialect
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    networks:
+      - fiszki-network
+
+  mariadb:
+    image: mariadb:10.6
+    ports:
+      - "3306:3306"
+    environment:
+      - MARIADB_DATABASE=fiszki
+      - MARIADB_USER=fiszki
+      - MARIADB_PASSWORD=fiszki
+      - MARIADB_ROOT_PASSWORD=root
+    volumes:
+      - mariadb-data:/var/lib/mysql
+    networks:
+      - fiszki-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "fiszki", "-pfiszki"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+networks:
+  fiszki-network:
+    driver: bridge
+
+volumes:
+  mariadb-data: 

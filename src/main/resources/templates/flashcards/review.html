@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="title">
+    <title>Powtórki - Fiszki</title>
+</head>
+<body>
+    <div th:fragment="content">
+        <h1>Powtórki</h1>
+        
+        <div th:if="${flashcards.empty}" class="alert alert-info">
+            Brak fiszek do powtórki. Wróć później!
+        </div>
+
+        <div th:each="flashcard : ${flashcards}" class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title" th:text="${flashcard.front}">Przód fiszki</h5>
+                <p class="card-text" th:text="${flashcard.back}">Tył fiszki</p>
+                
+                <div class="btn-group">
+                    <form th:action="@{'/flashcards/' + ${flashcard.id} + '/review'}" method="post">
+                        <input type="hidden" name="quality" value="1">
+                        <button type="submit" class="btn btn-danger">Bardzo źle</button>
+                    </form>
+                    <form th:action="@{'/flashcards/' + ${flashcard.id} + '/review'}" method="post">
+                        <input type="hidden" name="quality" value="2">
+                        <button type="submit" class="btn btn-warning">Źle</button>
+                    </form>
+                    <form th:action="@{'/flashcards/' + ${flashcard.id} + '/review'}" method="post">
+                        <input type="hidden" name="quality" value="3">
+                        <button type="submit" class="btn btn-info">Średnio</button>
+                    </form>
+                    <form th:action="@{'/flashcards/' + ${flashcard.id} + '/review'}" method="post">
+                        <input type="hidden" name="quality" value="4">
+                        <button type="submit" class="btn btn-primary">Dobrze</button>
+                    </form>
+                    <form th:action="@{'/flashcards/' + ${flashcard.id} + '/review'}" method="post">
+                        <input type="hidden" name="quality" value="5">
+                        <button type="submit" class="btn btn-success">Bardzo dobrze</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

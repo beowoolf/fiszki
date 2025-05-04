@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:fragment="title">Moje fiszki - Fiszki</title>
+</head>
+<body>
+    <div th:fragment="content">
+        <h1 class="mb-4">Moje fiszki</h1>
+        
+        <div class="row mb-4">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Statystyki</h5>
+                        <p class="card-text">
+                            Wszystkie fiszki: <span th:text="${statistics.totalFlashcards}">0</span><br>
+                            Nauczone: <span th:text="${statistics.learnedFlashcards}">0</span><br>
+                            Do powtórki: <span th:text="${statistics.flashcardsForReview}">0</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <a th:href="@{/flashcards/new}" class="btn btn-primary">Dodaj nową fiszkę</a>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4 mb-3" th:each="flashcard : ${flashcards}">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${flashcard.front}">Przód fiszki</h5>
+                        <p class="card-text" th:text="${flashcard.back}">Tył fiszki</p>
+                        <div class="btn-group">
+                            <a th:href="@{/flashcards/{id}/edit(id=${flashcard.id})}" class="btn btn-sm btn-outline-primary">Edytuj</a>
+                            <form th:action="@{/flashcards/{id}/delete(id=${flashcard.id})}" method="post" style="display: inline;">
+                                <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Czy na pewno chcesz usunąć tę fiszkę?')">Usuń</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 
