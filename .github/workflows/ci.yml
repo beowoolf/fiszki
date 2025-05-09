@@ -15,7 +15,6 @@ jobs:
         image: docker:dind
         options: >-
           --privileged
-          --network host
 
     steps:
     - uses: actions/checkout@v3
